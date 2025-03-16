@@ -18,9 +18,8 @@ bool edit_distance_within(const string& str1, const string& str2, int d) {
                 if (diffCount > d) return false;
             }
         }
-        return (diffCount == d);
-    }
-    else {
+        return (diffCount <= d);
+    } else {
         const string& sShort = (len1 < len2) ? str1 : str2;
         const string& sLong  = (len1 < len2) ? str2 : str1;
         int i = 0, j = 0;
@@ -35,7 +34,8 @@ bool edit_distance_within(const string& str1, const string& str2, int d) {
                 j++;
             }
         }
-        return true;
+        mismatchCount += (sLong.size() - j);
+        return (mismatchCount <= d);
     }
 }
 
@@ -100,17 +100,15 @@ vector<string> generate_word_ladder(const string& begin_word, const string& end_
 
 void print_word_ladder(const vector<string>& ladder) {
     if (ladder.empty()) {
-        cout << "No ladder found.\n";
+        cout << "No word ladder found.\n";
         return;
     }
-    cout << "Ladder found (length = " << ladder.size() << "): ";
+    cout << "Word ladder found: ";
     for (size_t i = 0; i < ladder.size(); i++) {
-        cout << ladder[i];
-        if (i + 1 < ladder.size()) cout << " -> ";
+        cout << ladder[i] << " ";
     }
     cout << "\n";
 }
-
 
 void verify_word_ladder(){ {
      set<string> dict = {"cat", "cot", "cog", "dog"};
